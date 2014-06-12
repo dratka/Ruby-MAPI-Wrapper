@@ -172,12 +172,10 @@ module Brightcove
         payload[:file] = UploadIO.new(file, content_type, filename)
       end
 
-      request = Net::HTTP::Post::Multipart.new(url.path, payload)  do
-        http.use_ssl = true
-        http.ssl_version = :SSLv3
-      end
+      request = Net::HTTP::Post::Multipart.new(url.path, payload)
 
       response = Net::HTTP.start(url.host, url.port) do |http|
+        http.ssl_version = :SSLv3
         http.read_timeout = @timeout if @timeout
         http.open_timeout = @open_timeout if @open_timeout
         http.request(request)
