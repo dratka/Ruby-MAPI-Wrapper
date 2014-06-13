@@ -173,12 +173,7 @@ module Brightcove
       end
 
       request = Net::HTTP::Post::Multipart.new(url.path, payload)
-      response = Net::HTTP.new(url.host, url.port)
-      response.use_ssl = true
-      response.ssl_version = :SSLv3
-      # response.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      
-      response.start do |http|
+      response = Net::HTTP.start(url.host, url.port) do |http|
         http = @timeout if @timeout
         http.open_timeout = @open_timeout if @open_timeout
         http.request(request)
