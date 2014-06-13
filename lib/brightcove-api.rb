@@ -174,14 +174,14 @@ module Brightcove
 
       request = Net::HTTP::Post::Multipart.new(url.path, payload)
       response = Net::HTTP.new(url.host, url.port)
-      response.use_ssl = true
-      response.ssl_version = :SSLv3
+      response.use_ssl = false
+      # response.ssl_version = :SSLv3
       response.start do |http|
         http = @timeout if @timeout
         http.open_timeout = @open_timeout if @open_timeout
         http.request(request)
       end
-      
+
       JSON.parse(response.body)
     end
 
