@@ -19,7 +19,7 @@ module Brightcove
     headers(DEFAULT_HEADERS)
 
     READ_API_URL = 'https://api.brightcove.com/services/library'
-    WRITE_API_URL = 'https://api.brightcove.com/services/post'
+    WRITE_API_URL = 'http://api.brightcove.com/services/post'
 
     attr_accessor :read_api_url
     attr_accessor :write_api_url
@@ -174,9 +174,10 @@ module Brightcove
 
       request = Net::HTTP::Post::Multipart.new(url.path, payload)
       response = Net::HTTP.new(url.host, url.port)
-      response.use_ssl = false
-      response.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      # response.ssl_version = :SSLv3
+      response.use_ssl = true
+      response.ssl_version = :SSLv3
+      # response.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      
       response.start do |http|
         http = @timeout if @timeout
         http.open_timeout = @open_timeout if @open_timeout
